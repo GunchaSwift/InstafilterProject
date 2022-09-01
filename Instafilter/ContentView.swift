@@ -6,9 +6,15 @@
 //
 import CoreImage
 import CoreImage.CIFilterBuiltins
+import PhotosUI
 import SwiftUI
 
-struct ContentView: View {
+// MARK: - Day 64
+
+// MARK: - Day 63
+// MARK: - Lesson One
+// Core Image and how to use it in SwiftUI
+struct LessonOne: View {
     @State private var image: Image?
     
     var body: some View {
@@ -32,11 +38,6 @@ struct ContentView: View {
         // Step 4: Customize the filter
         currentFilter.inputImage = beginImage
         
-        // Test
-        // Test
-        //
-        //
-        //
         
         let amount = 1.0
         let inputKeys = currentFilter.inputKeys
@@ -61,8 +62,43 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+// MARK: - Lesson Two
+// How to wrap UIViewController in a SwiftUI view
+struct LessonTwoView: View {
+    @State private var image: Image?
+    @State private var showingImagePicker = false
+    
+    var body: some View {
+        VStack {
+            image?
+                .resizable()
+                .scaledToFit()
+            
+            Button("Select Image") {
+                showingImagePicker = true
+            }
+        }
+        .sheet(isPresented: $showingImagePicker) {
+            ImagePicker()
+        }
     }
 }
+
+struct ImagePicker: UIViewControllerRepresentable { // makeUIVC + updateUIVC to conform to protocol
+
+    func makeUIViewController(context: Context) -> some UIViewController {
+        // Step 1: Make configuration, asking to provide us only images
+        var config = PHPickerConfiguration()
+        config.filter = .images
+        // Step 2: Create and return the picker that does the actual work of selecting an image
+        let picker = PHPickerViewController(configuration: config)
+        return picker
+    }
+    
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+        // not used
+    }
+}
+
+
+
